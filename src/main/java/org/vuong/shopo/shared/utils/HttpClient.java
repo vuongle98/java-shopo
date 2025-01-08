@@ -5,6 +5,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+
 @Component
 public class HttpClient extends AbstractHttpClient {
 
@@ -15,14 +17,18 @@ public class HttpClient extends AbstractHttpClient {
     @Override
     protected void preProcess(RequestContext requestContext) {
         super.preProcess(requestContext);
-        String clientToken = Context.getToken();
-        requestContext.setToken(clientToken);
     }
 
     @Override
     protected HttpHeaders createHeaders(RequestContext requestContext) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        if (Objects.nonNull(requestContext.getBodyType())) {
+            headers.setContentType(requestContext.getBodyType());
+        } else {
+            headers.setContentType(MediaType.APPLICATION_JSON);
+        }
+
         if (requestContext.getToken() != null) {
             headers.setBearerAuth(requestContext.getToken());
         }

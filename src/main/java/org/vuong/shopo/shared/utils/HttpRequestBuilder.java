@@ -1,11 +1,14 @@
 package org.vuong.shopo.shared.utils;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.vuong.shopo.shared.services.TokenService;
 
 import java.util.Map;
 
 public class HttpRequestBuilder<T> {
+
     private final HttpClient httpClient;
     private String url;
     private HttpMethod method;
@@ -38,6 +41,11 @@ public class HttpRequestBuilder<T> {
         return this;
     }
 
+    public HttpRequestBuilder<T> bodyType(MediaType bodyType) {
+        this.requestContext.setBodyType(bodyType);
+        return this;
+    }
+
     public HttpRequestBuilder<T> queryParams(Map<String, ?> queryParams) {
         this.queryParams = queryParams;
         return this;
@@ -50,6 +58,17 @@ public class HttpRequestBuilder<T> {
 
     public HttpRequestBuilder<T> responseType(Class<T> responseType) {
         this.responseType = responseType;
+        return this;
+    }
+
+    public HttpRequestBuilder<T> useServiceToken(TokenService tokenService) {
+        String token = tokenService.getServiceToken();
+        requestContext.setToken(token);
+        return this;
+    }
+
+    public HttpRequestBuilder<T> useUserToken() {
+        requestContext.setToken(Context.getUserToken());
         return this;
     }
 
