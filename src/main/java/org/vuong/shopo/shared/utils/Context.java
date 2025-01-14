@@ -44,4 +44,9 @@ public class Context {
 
         throw new TokenNotFoundException("Token from user not found");
     }
+
+//    public static Long getUserId() {
+//        String token = getUserToken();
+//
+//    }
 }

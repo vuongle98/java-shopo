@@ -1,4 +1,4 @@
-package org.vuong.shopo.config;
+package org.vuong.shopo.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,6 @@ public class RestTemplateConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
 
 
 }

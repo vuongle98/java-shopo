@@ -8,26 +8,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.vuong.shopo.application.dto.TokenDto;
+import org.vuong.shopo.infrastructure.integration.HttpClient;
+import org.vuong.shopo.infrastructure.integration.RequestContext;
 import org.vuong.shopo.shared.exceptions.TokenNotFoundException;
-import org.vuong.shopo.shared.utils.HttpClient;
-import org.vuong.shopo.shared.utils.RequestContext;
 
 import java.time.Instant;
 
 @Service
 public class TokenService {
 
+    private final HttpClient httpClient;
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuerUri;
-
-    @Value("${oauth2.client-id}")
+    @Value("${shopo.client-id}")
     private String clientId;
-
-    @Value("${oauth2.client-secret}")
+    @Value("${shopo.client-secret}")
     private String clientSecret;
-
-    private final HttpClient httpClient;
-
     private String cachedToken; // Cached service token
     private Instant tokenExpiry; // Token expiry time
 

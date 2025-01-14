@@ -1,6 +1,9 @@
-package org.vuong.shopo.shared.utils;
+package org.vuong.shopo.infrastructure.integration;
 
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,7 +30,7 @@ public abstract class AbstractHttpClient {
     /**
      * Handles exceptions dynamically.
      *
-     * @param exception The exception that occurred.
+     * @param exception      The exception that occurred.
      * @param requestContext Contextual information for error handling.
      */
     protected abstract void handleException(Exception exception, RequestContext requestContext);
@@ -44,7 +47,7 @@ public abstract class AbstractHttpClient {
     /**
      * Post-processes the response after receiving it.
      *
-     * @param response The response entity.
+     * @param response       The response entity.
      * @param requestContext The request context.
      */
     protected <T> void postProcess(ResponseEntity<T> response, RequestContext requestContext) {

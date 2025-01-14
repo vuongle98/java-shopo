@@ -5,9 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.vuong.shopo.infrastructure.integration.HttpClient;
+import org.vuong.shopo.infrastructure.integration.HttpRequestBuilder;
 import org.vuong.shopo.shared.services.TokenService;
-import org.vuong.shopo.shared.utils.HttpClient;
-import org.vuong.shopo.shared.utils.HttpRequestBuilder;
+import org.vuong.shopo.shared.utils.ResponseUtil;
 
 @Controller
 @RequestMapping("/test")
@@ -31,6 +32,6 @@ public class TestController {
                 .useUserToken()
                 .get();
         System.out.println(users.getBody());
-        return new ResponseEntity<>(users.getBody(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseUtil.success(users.getBody(), "Get data success"), HttpStatus.OK);
     }
 }

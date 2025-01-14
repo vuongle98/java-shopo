@@ -1,4 +1,4 @@
-package org.vuong.shopo.shared.utils;
+package org.vuong.shopo.infrastructure.integration;
 
 import lombok.Getter;
 import lombok.Setter;

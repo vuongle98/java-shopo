@@ -1,18 +1,19 @@
-package org.vuong.shopo.shared.utils;
+package org.vuong.shopo.infrastructure.integration;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.vuong.shopo.shared.services.TokenService;
+import org.vuong.shopo.shared.utils.Context;
 
 import java.util.Map;
 
 public class HttpRequestBuilder<T> {
 
     private final HttpClient httpClient;
+    private final RequestContext requestContext = new RequestContext();
     private String url;
     private HttpMethod method;
-    private final RequestContext requestContext = new RequestContext();
     private Map<String, ?> queryParams;
     private Object body;
     private Class<T> responseType;

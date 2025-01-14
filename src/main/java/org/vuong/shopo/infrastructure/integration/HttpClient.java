@@ -1,4 +1,4 @@
-package org.vuong.shopo.shared.utils;
+package org.vuong.shopo.infrastructure.integration;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

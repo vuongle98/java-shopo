@@ -1,16 +1,15 @@
-package org.vuong.shopo.properties;
+package org.vuong.shopo.infrastructure.config;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("oauth2")
+@ConfigurationProperties("shopo")
 @Getter
 @Setter
-public class OAuth2Properties {
-
+public class AppProperties {
 
     private String clientId;
     private String clientSecret;
-
+    private String cacheManagerName;
 }
