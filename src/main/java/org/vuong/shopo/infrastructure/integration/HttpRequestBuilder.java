@@ -1,5 +1,6 @@
 package org.vuong.shopo.infrastructure.integration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,15 @@ import org.vuong.shopo.shared.utils.Context;
 import java.util.Map;
 
 public class HttpRequestBuilder<T> {
+
+    @Value("${shopo.base-core-api}")
+    String baseCoreApi;
+
+    @Value("${shopo.base-core-host}")
+    String baseCoreHost;
+
+    @Value("${shopo.base-core-port}")
+    String baseCorePort;
 
     private final HttpClient httpClient;
     private final RequestContext requestContext = new RequestContext();
@@ -24,6 +34,11 @@ public class HttpRequestBuilder<T> {
 
     public HttpRequestBuilder<T> url(String url) {
         this.url = url;
+        return this;
+    }
+
+    public HttpRequestBuilder<T> useCoreApi(String api) {
+        this.url = this.baseCoreHost + ":" + this.baseCorePort + "/" + api;
         return this;
     }
 
@@ -100,4 +115,8 @@ public class HttpRequestBuilder<T> {
     public ResponseEntity<T> execute() {
         return httpClient.execute(url, method, requestContext, queryParams, body, responseType);
     }
+
+//    public <T> T parseResponse(Class<T> responseType) {
+//
+//    }
 }

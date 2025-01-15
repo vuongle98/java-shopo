@@ -41,7 +41,7 @@ public class Order extends BaseEntity {
     }
 
     public enum OrderStatus {
-        PENDING, PAID, SHIPPED, DELIVERED, CANCELLED
+        PENDING, CONFIRMED, PAID, SHIPPED, DELIVERED, CANCELLED
     }
 
     public void addOrderItem(OrderItem orderItem) {

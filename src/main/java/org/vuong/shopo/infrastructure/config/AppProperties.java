@@ -12,4 +12,7 @@ public class AppProperties {
     private String clientId;
     private String clientSecret;
     private String cacheManagerName;
+    private String baseCoreApi;
+    private String baseCoreHost;
+    private String baseCorePort;
 }
