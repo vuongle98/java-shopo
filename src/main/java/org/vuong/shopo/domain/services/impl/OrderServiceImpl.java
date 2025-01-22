@@ -28,15 +28,14 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
     private final UserService userService;
 
     public OrderServiceImpl(
             OrderRepository orderRepository,
-            OrderItemRepository orderItemRepository, ProductRepository productRepository, UserService userService) {
+            ProductRepository productRepository,
+            UserService userService) {
         this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
         this.productRepository = productRepository;
         this.userService = userService;
     }
@@ -74,6 +73,12 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto updateOrder(Long id, CreateOrderCommand command) {
         Order order = getOrderById(id, Order.class);
 
+        UserDto user = userService.getCurrentUserInfo();
+
+        if (!order.getUserId().equals(user.getId()) || !user.isAdmin()) {
+            throw new RuntimeException("Order does not belong to current user");
+        }
+
         if (Objects.nonNull(command.getCurrency())) {
             order.setCurrency(command.getCurrency());
         }
@@ -82,62 +87,17 @@ public class OrderServiceImpl implements OrderService {
             addOrderItems(command, order);
         }
 
-        return ObjectData.mapTo(orderRepository.save(order), OrderDto.class);
-    }
+        if (Objects.nonNull(command.getStatus())) {
 
-    public OrderDto confirmOrder(Long id) {
-        Order order = getOrderById(id, Order.class);
+            if (command.getStatus().equals(Order.OrderStatus.CONFIRMED)) {
+                if (!order.getStatus().equals(Order.OrderStatus.PENDING)) {
+                    throw new RuntimeException("Order status is not valid to confirm");
+                }
+            }
 
-        if (!order.getStatus().equals(Order.OrderStatus.PENDING)) {
-            throw new RuntimeException("Order status is not valid to confirm");
+            order.setStatus(command.getStatus());
         }
 
-        UserDto user = userService.getCurrentUserInfo();
-
-        if (!order.getUserId().equals(user.getId())) {
-            throw new RuntimeException("Order does not belong to current user");
-        }
-
-        order.setStatus(Order.OrderStatus.CONFIRMED);
-        return ObjectData.mapTo(orderRepository.save(order), OrderDto.class);
-    }
-
-    public OrderDto cancelOrder(Long id) {
-        Order order = getOrderById(id, Order.class);
-
-        UserDto user = userService.getCurrentUserInfo();
-
-        if (!order.getUserId().equals(user.getId())) {
-            throw new RuntimeException("Order does not belong to current user");
-        }
-
-        order.setStatus(Order.OrderStatus.CANCELLED);
-        return ObjectData.mapTo(orderRepository.save(order), OrderDto.class);
-    }
-
-    public OrderDto payOrder(Long id) {
-        Order order = getOrderById(id, Order.class);
-
-        if (order.getStatus().equals(Order.OrderStatus.PAID)) {
-            throw new RuntimeException("Order already paid");
-        }
-
-        UserDto user = userService.getCurrentUserInfo();
-
-        if (!order.getUserId().equals(user.getId())) {
-            throw new RuntimeException("Order does not belong to current user");
-        }
-
-        // handle payment logic (call payment service,...)
-
-        order.setStatus(Order.OrderStatus.PAID);
-        return ObjectData.mapTo(orderRepository.save(order), OrderDto.class);
-    }
-
-    public OrderDto completeOrder(Long id) {
-        Order order = getOrderById(id, Order.class);
-
-        order.setStatus(Order.OrderStatus.DELIVERED);
         return ObjectData.mapTo(orderRepository.save(order), OrderDto.class);
     }
 

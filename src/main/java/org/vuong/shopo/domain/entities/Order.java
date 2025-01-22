@@ -26,6 +26,8 @@ public class Order extends BaseEntity {
     @Column(nullable = false)
     private String currency;
 
+    private String code;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING; // PENDING, PAID, CANCELLED, SHIPPED

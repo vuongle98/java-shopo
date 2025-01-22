@@ -34,8 +34,14 @@ public class SecurityConfig {
                                 AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
                                 AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
                                 AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
-                                AntPathRequestMatcher.antMatcher("/actuator/**")
-                        ).permitAll()
+                                AntPathRequestMatcher.antMatcher("/actuator/**"),
+                                AntPathRequestMatcher.antMatcher("/app/**"),
+                                AntPathRequestMatcher.antMatcher("/api/**"),
+                                AntPathRequestMatcher.antMatcher("/lib/**"),
+                                AntPathRequestMatcher.antMatcher("/tasklist/**"),
+                                AntPathRequestMatcher.antMatcher("/camunda/**"),
+                                AntPathRequestMatcher.antMatcher("/favicon.ico")
+                ).permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2

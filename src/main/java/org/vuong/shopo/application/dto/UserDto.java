@@ -21,4 +21,8 @@ public class UserDto implements Serializable {
     enum UserRole {
         ADMIN, USER, MODERATOR
     }
+
+    public boolean isAdmin() {
+        return roles.contains(UserRole.ADMIN);
+    }
 }

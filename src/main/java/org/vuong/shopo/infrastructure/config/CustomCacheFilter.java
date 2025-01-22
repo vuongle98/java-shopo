@@ -41,6 +41,11 @@ public class CustomCacheFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        if (request.getRequestURI().startsWith("/camunda")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String cacheKey = generateCacheKey(request);
         logger.debug("Processing request for URI: {}, Cache key: {}", request.getRequestURI(), cacheKey);
 

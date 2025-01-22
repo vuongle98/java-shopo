@@ -5,6 +5,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.server.core.EmbeddedWrapper;
+import org.springframework.hateoas.server.core.EmbeddedWrappers;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.vuong.shopo.infrastructure.config.embeded.PagedResponse;
 import org.vuong.shopo.shared.utils.ResponseUtil;
+
+import java.util.Collection;
 
 @ControllerAdvice
 public class GlobalResponseCustomizer implements ResponseBodyAdvice<Object> {

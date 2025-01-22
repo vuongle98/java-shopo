@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.vuong.shopo.domain.entities.Order;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,4 +24,7 @@ public class CreateOrderCommand implements Serializable {
 
     @NotNull
     private Long userId;
+
+    @NotNull
+    private Order.OrderStatus status;
 }
